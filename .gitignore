@@ -361,3 +361,5 @@ MigrationBackup/
 FodyWeavers.xsd
 libignore
 *.sln
+/sundaySilence.vcxproj
+/sundaySilence.vcxproj.filters
