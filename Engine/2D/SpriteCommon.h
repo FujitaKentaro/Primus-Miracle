@@ -5,6 +5,7 @@
 #include <DirectXTex.h>
 #include <array>
 #include <string>
+#include <map>
 #pragma warning(pop)
 
 #include"DirectXCommon.h"
@@ -59,6 +60,7 @@ public:
 	void LoadTexture(uint32_t index, const std::string& fileName);
 
 	void SetTextureCommands(uint32_t index);
+	uint32_t GetTextureIndex(const std::string& fileName) { return nameAndIndex.at(fileName); };
 
 	void PreDraw();
 	void PostDraw();
@@ -120,4 +122,5 @@ private:
 	static std::string kDefaultTextureDirectoryPath;
 
 	UINT incrementSize;
+	std::map< const std::string, uint32_t> nameAndIndex;
 };

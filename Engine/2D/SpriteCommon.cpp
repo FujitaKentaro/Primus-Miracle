@@ -302,6 +302,7 @@ void SpriteCommon::LoadTexture(uint32_t index, const std::string& fileName)
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	dxcommon_->GetDevice()->CreateShaderResourceView(texBuff[index].Get(), &srvDesc, srvHandle);
+	nameAndIndex.insert(std::make_pair(fileName, index));
 }
 
 void SpriteCommon::SetTextureCommands(uint32_t index)

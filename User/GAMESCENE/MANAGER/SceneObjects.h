@@ -8,8 +8,6 @@
 
 #include "LightGroup.h"
 #include "FBXObject3d.h"
- //#include "fbx/FBXLoader.h"
- //#include "FBXModel.h"
 #include "Audio.h"
 #include "SpriteCommon.h"
 #include "Model.h"

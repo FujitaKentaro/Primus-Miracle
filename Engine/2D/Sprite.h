@@ -66,6 +66,7 @@ public:
 	Vector2 GetAnchorPoint() { return anchorPoint; }
 
 	void SetTextureIndex(uint32_t texNmb) { textureIndex_ = texNmb; AdjustTextureSize(); }
+	void SetTextureIndex(const std::string& fileName) { textureIndex_ = spritecomon->GetTextureIndex(fileName); AdjustTextureSize(); }
 
 	uint32_t GetTextureIndex() { return textureIndex_; }
 

@@ -325,15 +325,6 @@ void SceneObjects::UpdateImGui()
 	lightGroup->SetDirLightDir(0, Vector4(lightDir.x, lightDir.y, lightDir.z, 0));
 	UISP_Wep_size = UISP_Weapon_size;
 #endif
-
-	////デスフラグの立った弾を削除
-	//boss.remove_if([](std::unique_ptr<Boss>& boss_) {
-	//	return boss_->HowDead();
-	//	});
-	//デスフラグの立った弾を削除
-	//enemys.remove_if([](std::unique_ptr<Enemy>& enemy) {
-	//	return !enemy->HowDead();
-	//	});
 }
 
 void SceneObjects::Reset()
@@ -499,12 +490,14 @@ void SceneObjects::UIUpdate()
 	}
 	else if (player->GetOnFire() && player->GetIsCoolTimeON()) {
 		UIWeaponSPsize_.y = UISP_Wep_size * 2.0f * -(float)player->GetBarrierCoolTime();
-		UIBarrierGaugeSP_->SetTextureIndex(36);
+		//UIBarrierGaugeSP_->SetTextureIndex(36);
+		UIBarrierGaugeSP_->SetTextureIndex("lightgray.png");
 		UIPointSP_->SetTextureIndex(46);
 	}
 	else {
 		UIWeaponSPsize_.y = UISP_Wep_size * -(float)player->GetBarrierOnTime();
-		UIBarrierGaugeSP_->SetTextureIndex(37);
+		UIBarrierGaugeSP_->SetTextureIndex("cian.png");
+		//UIBarrierGaugeSP_->SetTextureIndex(37);
 	}
 	if (player->GetIsSlow()) {
 		//UIWeaponSP_->SetTextureIndex(43);
@@ -606,7 +599,6 @@ void SceneObjects::SetingLevel(LevelData* data)
 			Vector3 sca;
 			sca = objectData.scaling;
 			newEnemy->object_->transForm.scale = sca;
-			//newEnemy->object_->SetColor(Vector4(0.5f, 1, 1, 0));
 			enemys.emplace_back(std::move(newEnemy));
 		}
 		else if (objectData.fileName == "boss") {
@@ -633,7 +625,6 @@ void SceneObjects::SetingLevel(LevelData* data)
 			Vector3 sca;
 			sca = objectData.scaling;
 			newBoss->object_->transForm.scale = sca;
-			//newBoss->object_->SetColor(Vector4(0.5f, 1, 1, 0));
 			boss.emplace_back(std::move(newBoss));
 		}
 		else if (objectData.fileName == "wall") {
