@@ -81,6 +81,9 @@ public:
 	bool upThrow = false;
 	bool isExplosion = false;
 
+	bool playGlassSound = false;
+	bool playfireSound = false;
+
 public:
 	FireBottle();
 	~FireBottle() override;

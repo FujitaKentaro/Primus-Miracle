@@ -153,8 +153,9 @@ void Boss::Update(Input* input, bool isTitle) {
 		isFireOld = false;
 	}
 	weapon_->Update(input);
-
-	FrontFace();
+	{
+		FrontFace();
+	}
 	ColliderUpdate();
 
 }

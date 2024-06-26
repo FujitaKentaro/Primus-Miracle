@@ -26,6 +26,8 @@ void SceneObjects::Initialize() {
 	{
 		Audio::get_instance()->LoadWave("shot.wav");
 		Audio::get_instance()->LoadWave("BGM.wav");
+		Audio::get_instance()->LoadWave("fire.wav");
+		Audio::get_instance()->LoadWave("glassbreak.wav");
 
 	}
 	// スプライトロード集

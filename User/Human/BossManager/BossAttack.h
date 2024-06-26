@@ -5,6 +5,7 @@ class BossAttack :
 {
 	BossAttack();
 	~BossAttack()override;
+	void Initialize()override;
 	/// 更新を行う
 	void Update()override;
 };
