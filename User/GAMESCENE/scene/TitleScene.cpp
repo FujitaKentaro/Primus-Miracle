@@ -21,7 +21,9 @@ void TitleScene::Initialize() {
 	_manager->_camera->SetTarget(camposTar);
 	_manager->_camera->SetFocalLengs(forcalLengs);
 	_manager->_camera->Update();
-
+	if (!_objects->bgmSourceVoice) {
+		_objects->bgmSourceVoice = Audio::get_instance()->PlayWave("BGM.wav");
+	}
 	particle_ = std::make_unique<ParticleManager>();
 	particle_->Initialize();
 	particle_->LoadTexture("yellow.png");
@@ -77,6 +79,8 @@ void TitleScene::Update(Input* input) {
 	_manager->_camera->SetEye(camposEye);
 	_manager->_camera->SetTarget(camposTar);
 	_manager->_camera->Update();
+	
+
 	if (titleTime_ % 50 == 0) {
 		particle_->RandParticle(100,Vector3(0, 100, 0));
 	}
@@ -106,7 +110,7 @@ void TitleScene::Update(Input* input) {
 	if (_objects->mouseCursor_->Cursor2Sprite(titleButton_.get())) {
 		if (input->MouseButtonTrigger(0)) {
 			_manager->SetSceneNum(SCE_SELECT);
-			Audio::get_instance()->PlayWave("shot.wav");
+			Audio::get_instance()->PlayWave("shot.wav",10.0f);
 		}
 		titleButton_->SetTextureIndex(9);
 	}

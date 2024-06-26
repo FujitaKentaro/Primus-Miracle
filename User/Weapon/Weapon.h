@@ -10,6 +10,7 @@
 #include "Transform.h"
 #include "Bullet.h"
 #include "BulletManager.h"
+#include "Audio.h"
 
 // 武器基底クラス
 class Weapon

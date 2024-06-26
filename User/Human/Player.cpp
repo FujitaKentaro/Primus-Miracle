@@ -10,9 +10,6 @@ Player::Player() {
 }
 Player::~Player() {
 	delete ray;
-	delete model_;
-	delete reticleMD_;
-	delete reticleXMD_;
 	delete colPosTesM_;
 	delete pointDash_;
 	delete weapon_[0];
@@ -24,28 +21,22 @@ Player::~Player() {
 	}
 	CollisionManager::GetInstance()->RemoveCollider(PL_Barrier);
 	delete PL_Barrier;
-	delete object_;
-	delete reticle;
-	for (uint32_t i = NUMBER::NUM_ZERO; i < NUMBER::NUM_FOUR; i++)
-	{
-		delete phantom_[i];
-	}
 
 }
 
 ///
 void Player::Initialize() {
-	model_ = Model::LoadFromOBJ("player");
-	reticleMD_ = Model::LoadFromOBJ("cursor");
-	reticleXMD_ = Model::LoadFromOBJ("cursolX");
+	model_.reset(std::move(Model::LoadFromOBJ("player")));
+	reticleMD_.reset(std::move(Model::LoadFromOBJ("cursor")));
+	reticleXMD_.reset(std::move(Model::LoadFromOBJ("cursolX")));
 	colPosTesM_ = Model::LoadFromOBJ("sphere");
 
-	object_ = Object3d::Create();
-	object_->SetModel(model_);
+	object_.reset(std::move(Object3d::Create()));
+	object_->SetModel(model_.get());
 	object_->Initialize();
 
-	reticle = Object3d::Create();
-	reticle->SetModel(reticleMD_);
+	reticle.reset(std::move(Object3d::Create()));
+	reticle->SetModel(reticleMD_.get());
 	reticle->Initialize();
 
 	weapon_[WP_ASSAULT] = new Assault();
@@ -60,7 +51,7 @@ void Player::Initialize() {
 
 	for (uint32_t i = NUMBER::NUM_ZERO; i < NUMBER::NUM_FOUR; i++)
 	{
-		phantom_[i] = Object3d::Create();
+		phantom_[i].reset(std::move(Object3d::Create()));
 	}
 	//phantomAlpha_[0] = 1.0f;
 	for (uint32_t i = NUMBER::NUM_ZERO; i < NUMBER::NUM_FOUR; i++)
@@ -69,7 +60,7 @@ void Player::Initialize() {
 	}
 	for (uint32_t i = NUMBER::NUM_ZERO; i < NUMBER::NUM_FOUR; i++)
 	{
-		phantom_[i]->SetModel(model_);
+		phantom_[i]->SetModel(model_.get());
 		phantom_[i]->Initialize();
 		phantom_[i]->SetColor(Vector4(0.8f, 0.8f, 0.8f, phantomAlpha_[i]));
 	}
@@ -87,7 +78,7 @@ void Player::Initialize() {
 		sphere[i] = new SphereCollider;
 		CollisionManager::GetInstance()->AddCollider(sphere[i]);
 		spherePos[i] = Affin::GetWorldTrans(object_->transForm.matWorld);
-		sphere[i]->SetObject3d(object_);
+		sphere[i]->SetObject3d(object_.get());
 		sphere[i]->SetBasisPos(&spherePos[i]);
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->Update();
@@ -103,7 +94,7 @@ void Player::Initialize() {
 	PL_Barrier = new SphereCollider;
 	CollisionManager::GetInstance()->AddCollider(PL_Barrier);
 	BarrierPos_ = Affin::GetWorldTrans(object_->transForm.matWorld);
-	PL_Barrier->SetObject3d(object_);
+	PL_Barrier->SetObject3d(object_.get());
 	PL_Barrier->SetBasisPos(&BarrierPos_);
 	PL_Barrier->SetRadius(6.0f);
 	PL_Barrier->Update();
@@ -165,9 +156,9 @@ void Player::Update(Input* input, bool isTitle) {
 	pointDash_->DebugImGui();
 
 	if (Input::get_instance().KeyboardPush(DIK_B)) {
-	ObjParticleManager::GetInstance()->SetAnyExp(
-		Affin::GetWorldTrans(object_->transForm.matWorld),
-		{-0.5f,0.5},5,0.5f);
+		ObjParticleManager::GetInstance()->SetAnyExp(
+			Affin::GetWorldTrans(object_->transForm.matWorld),
+			{ -0.5f,0.5 }, 5, 0.5f);
 	}
 #endif
 }
@@ -306,7 +297,7 @@ void Player::HitMyColor()
 		hitTime_++;
 		ObjParticleManager::GetInstance()->SetAnyExp(
 			Affin::GetWorldTrans(object_->transForm.matWorld),
-			{ -0.2f,0.2f }, 5, 0.1f,{0.5f,0,0,1});
+			{ -0.2f,0.2f }, 5, 0.1f, { 0.5f,0,0,1 });
 		if (hitTime_ >= MAX_HITTIME) {
 			isHitEffect = false;
 			hitTime_ = NUMBER::NUM_ZERO;
@@ -518,20 +509,20 @@ void Player::PointDashUpdate()
 				pointDash_->SetPoint(reticle->transForm.position, &Input::get_instance());
 				nowSetPoint = true;
 			}
-			reticle->SetModel(reticleMD_);
+			reticle->SetModel(reticleMD_.get());
 			reticle->transForm.rotation.y += 0.05f;
 		}
 		else {
-			reticle->SetModel(reticleXMD_);
+			reticle->SetModel(reticleXMD_.get());
 			reticle->transForm.rotation.y = NONE;
 		}
 		if (pointDash_->pointsMax) {
-			reticle->SetModel(reticleXMD_);
+			reticle->SetModel(reticleXMD_.get());
 			reticle->transForm.rotation.y = NONE;
 		}
 	}
 	else {
-		reticle->SetModel(reticleMD_);
+		reticle->SetModel(reticleMD_.get());
 		reticle->transForm.rotation.y = NONE;
 	}
 	//object_->camera_->SetFocalLengs(pointDash_->F_lengs);

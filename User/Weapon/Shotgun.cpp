@@ -44,11 +44,11 @@ void Shotgun::Update(Input* input/*, bool isSlow*/) {
 
 		if (_isSlow == true) {
 			mag = 0;
-			roadingTime = 150*2;
+			roadingTime = 150 * 2;
 		}
 		else {
 			mag = 0;
-			roadingTime = 50*2;
+			roadingTime = 50 * 2;
 		}
 	}
 	if (roadingTime < 0) {
@@ -101,6 +101,7 @@ void Shotgun::Shot(Transform& player, Transform& reticle, uint32_t team) {
 			//弾を登録
 			BulletManager::GetInstance()->AddBullet(std::move(newBullet));
 		}
+		Audio::get_instance()->PlayWave("shot.wav", 10.0f);
 		mag++;
 
 		//クールタイムをリセット

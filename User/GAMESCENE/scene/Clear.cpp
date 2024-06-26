@@ -8,7 +8,7 @@
 Clear::Clear() {
 }
 Clear::~Clear() {
-
+	Audio::get_instance()->StopWave(_objects->bgmSourceVoice);
 
 }
 

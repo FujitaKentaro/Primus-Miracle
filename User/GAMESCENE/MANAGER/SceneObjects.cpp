@@ -25,6 +25,8 @@ void SceneObjects::Initialize() {
 	// オーディオロード
 	{
 		Audio::get_instance()->LoadWave("shot.wav");
+		Audio::get_instance()->LoadWave("BGM.wav");
+
 	}
 	// スプライトロード集
 	{

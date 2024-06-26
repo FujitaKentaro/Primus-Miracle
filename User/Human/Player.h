@@ -62,11 +62,11 @@ private:
 	bool nowTitle = false;
 
 
-	Model* model_;
-	Model* reticleMD_;
-	Model* reticleXMD_;
-	Object3d* object_;
-	Object3d* reticle;
+	std::unique_ptr<Model> model_;
+	std::unique_ptr<Model> reticleMD_;
+	std::unique_ptr<Model> reticleXMD_;
+	std::unique_ptr<Object3d> object_;
+	std::unique_ptr<Object3d> reticle;
 	Transform shotPos;
 	float mouseSensitivity_ = 0.15f;	//マウス感度 元0.99
 	//移動速度
@@ -92,7 +92,7 @@ private:
 	bool onFireBottle = false;
 
 	// 残像用
-	Object3d* phantom_[4];
+	std::array<std::unique_ptr<Object3d>,4> phantom_;
 	float phantomAlpha_[4];
 	bool isPhantom_;
 	bool pad[3];

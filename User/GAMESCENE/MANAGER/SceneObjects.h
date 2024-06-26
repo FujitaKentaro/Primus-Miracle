@@ -95,6 +95,8 @@ private: // 演出用
 
 
 	Shake backWall;
+public:
+	IXAudio2SourceVoice* bgmSourceVoice;
 public: // UI用
 	void UIUpdate();
 	void UIDraw();

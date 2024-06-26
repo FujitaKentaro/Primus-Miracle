@@ -21,7 +21,6 @@ void Audio::Initialize()
 	result = xAudio2_->CreateMasteringVoice(&masterVoice);
 	assert(SUCCEEDED(result));
 
-
 }
 
 void Audio::Finalize()
@@ -51,16 +50,12 @@ void Audio::LoadWave(const std::string& filename)
 	//ディレクトリパスとファイル名を連結してフルパスを得る
 	std::string fullpath = directoryPath_ + filename;
 
-	//-------①ファイルオープン-------//
-
 	//ファイル入力ストリームのインスタンス
 	std::ifstream file;
 	//.wavファイルをバイナリモードで開く
 	file.open(fullpath, std::ios_base::binary);
 	//ファイルオープン失敗を検出する
 	assert(file.is_open());
-
-	//-------②.wavデータ読み込み-------//
 
 	//RIFFヘッダーの読み込み
 	RiffHeader riff;
@@ -112,8 +107,6 @@ void Audio::LoadWave(const std::string& filename)
 	//Waveファイルを閉じる
 	file.close();
 
-	//-------③読み込んだ音声データをreturn-------//
-
 	//returnする為の音声データ
 	SoundData soundData = {};
 
@@ -137,7 +130,7 @@ void Audio::Unload(SoundData* soundData)
 	soundData->wfex = {};
 }
 
-IXAudio2SourceVoice* Audio::PlayWave(const std::string& filename)
+IXAudio2SourceVoice* Audio::PlayWave(const std::string& filename, const float& volume)
 {
 	HRESULT result;
 
@@ -158,6 +151,7 @@ IXAudio2SourceVoice* Audio::PlayWave(const std::string& filename)
 
 	//波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
+	result = pSourceVoice->SetVolume(volume);
 	result = pSourceVoice->Start();
 
 	return pSourceVoice;
@@ -171,4 +165,26 @@ void Audio::StopWave(IXAudio2SourceVoice* pSourceVoice) {
 
 	//波形データの再生
 	result = pSourceVoice->Stop();
+}
+
+bool Audio::NowPlay(IXAudio2SourceVoice* pSourceVoice)
+{
+	if (pSourceVoice != nullptr)
+	{
+		XAUDIO2_VOICE_STATE state;
+
+		pSourceVoice->GetState(&state);
+
+		return !(state.pCurrentBufferContext == nullptr);
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+IXAudio2SourceVoice* Audio::GetSourceVoice(const std::string& filename)
+{
+	return voices_.at(filename);
 }

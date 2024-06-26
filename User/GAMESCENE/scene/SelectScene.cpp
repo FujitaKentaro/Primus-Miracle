@@ -38,6 +38,7 @@ void SelectScene::Initialize() {
 	right_->Initialize(_objects->spriteCommon_.get(), 28);
 	right_->SetSize({ 85,165 });
 	right_->SetPozition({ (WinApp::window_width / 2) + 250,WinApp::window_height - 220 });
+
 }
 
 void SelectScene::Update(Input* input) {

@@ -90,6 +90,7 @@ void Assault::Shot(Transform& shooter, Transform& reticle, uint32_t team) {
 
 		//弾を登録
 		BulletManager::GetInstance()->AddBullet(std::move(newBullet));
+		Audio::get_instance()->PlayWave("shot.wav",10.0f);
 		mag++;
 
 		//クールタイムをリセット

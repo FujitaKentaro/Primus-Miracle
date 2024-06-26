@@ -46,12 +46,6 @@ public:
 		unsigned int bufferSize;
 	};
 
-	// 再生データ
-	struct Voice {
-		uint32_t handle = 0u;
-		IXAudio2SourceVoice* sourceVoice = nullptr;
-	};
-
 public:
 	Audio() = default;
 	~Audio() = default;
@@ -87,7 +81,7 @@ public:
 	/// <summary>
 	/// //音声再生
 	/// </summary>
-	IXAudio2SourceVoice* PlayWave(const std::string& filename);
+	IXAudio2SourceVoice* PlayWave(const std::string& filename,const float& volume = 10.0f);
 
 	/// <summary>
 	/// 音声停止
@@ -95,11 +89,14 @@ public:
 	/// <param name="voiceHandle">再生ハンドル</param>
 	void StopWave(IXAudio2SourceVoice* pSourceVoice);
 
+	bool NowPlay(IXAudio2SourceVoice* pSourceVoice);
+
+	IXAudio2SourceVoice* GetSourceVoice(const std::string& filename);
 private:
 	//サウンド再生
 	ComPtr<IXAudio2> xAudio2_;
 	// 再生中データコンテナ
-	std::set<Voice*> voices_;
+	std::map<std::string ,IXAudio2SourceVoice*> voices_;
 	//サウンドデータの連想配列
 	std::map<std::string, SoundData> soundDates_;
 	//サウンド格納ディレクトリ
