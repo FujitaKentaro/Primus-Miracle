@@ -210,29 +210,6 @@
         },
         {
             "type": "MESH",
-            "name": "enemy.001",
-            "transform": {
-                "translation": [
-                    58.0,
-                    -0.001195743796415627,
-                    -20.0
-                ],
-                "rotation": [
-                    -0.0,
-                    179.99998474121094,
-                    -0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "enemy",
-            "Weapon": "ASSAULT"
-        },
-        {
-            "type": "MESH",
             "name": "wall.002",
             "transform": {
                 "translation": [

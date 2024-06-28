@@ -25,6 +25,7 @@ void Floor::Initialize(Model* model) {
 	object_->transForm.position.y = -0.8f;
 	object_->transForm.scale.x = 15.5f;
 	object_->transForm.scale.z = 15.5f;
+	object_->SetColor({ {0.8f,0.8f,0.8f}, 1 });
 	object_->UpdateMatrix();
 }
 

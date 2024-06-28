@@ -39,6 +39,10 @@ void SelectScene::Initialize() {
 	right_->SetSize({ 85,165 });
 	right_->SetPozition({ (WinApp::window_width / 2) + 250,WinApp::window_height - 220 });
 
+	Vector3 resetEyE = { 0.0f,40.0f,-90.01f };
+	Vector3 resetTar = { 0,0,0 };
+	_manager->_camera->SetEye(resetEyE);
+	_manager->_camera->SetTarget(resetTar);
 }
 
 void SelectScene::Update(Input* input) {

@@ -74,16 +74,15 @@ void Tutorial::Update(Input* input) {
 
 #ifdef _DEBUG
 	ImGui::Begin("Tutorial_S");
-	ImGui::SliderFloat3("Position", &moveCameraPos.x,-50.0,50.0);
+	ImGui::SliderFloat3("Position", &moveCameraPos.x, -50.0, 50.0);
 	ImGui::End();
-#endif
 	// {-47,0,-29}POS,{70}FL
-	forcalLengs = 70.0f;
-
-	Vector3 debugEyE = { 0.0f,90.0f,-10.0001f };
-	Vector3 debugTar = { 0,0,0 };
-		camposEye = debugEyE + moveCameraPos;
-		camposTar = debugTar + moveCameraPos;
+	//forcalLengs = 70.0f;
+	//Vector3 debugEyE = { 0.0f,90.0f,-10.0001f };
+	//Vector3 debugTar = { 0,0,0 };
+		//camposEye = debugEyE + moveCameraPos;
+		//camposTar = debugTar + moveCameraPos;
+#endif
 	if (startTime_ == true && stageClear == false && stageFailed == false) {
 		startTime_ = _objects->Banner();
 		camMoveTime_++;
@@ -104,6 +103,12 @@ void Tutorial::Update(Input* input) {
 			/*_manager->SetSceneNum(SCE_CLEAR);*/
 			_manager->SetSceneNum(SCE_GAME1);
 			if (_manager->tutorialNum == TUTO_3) {
+				Vector3 resetEyE = { 0.0f,90.0f,-10.0001f };
+				Vector3 resetTar = { 0,0,0 };
+				camposEye = resetEyE;
+				camposTar = resetTar;
+				_manager->_camera->SetEye(camposEye);
+				_manager->_camera->SetTarget(camposTar);
 				_manager->TutorialOFF();
 				_manager->SetSceneNum(SCE_CLEAR);
 			}
@@ -183,7 +188,7 @@ void Tutorial::TutorialUpdate(uint32_t tutorialNum)
 	}
 	for (std::unique_ptr < Wall>& walls : _objects->walls) {
 		walls->Update();
-	}	
+	}
 
 	if (Input::get_instance().KeyboardTrigger(DIK_TAB)) {
 		_manager->SetSceneNum(SCE_PAUSE);
@@ -227,7 +232,8 @@ void Tutorial::SpriteUpdate(uint32_t tutorialNum) {
 		isTimeCount = false;
 		infoCountTime_ = 0;
 		isInfoDUSH = true;
-	}else if (isInfoDUSH == true && infoCountTime_ > 150) {
+	}
+	else if (isInfoDUSH == true && infoCountTime_ > 150) {
 		nowInfoNum_ = 1;
 		isInfoDUSH = false;
 		isTimeCount = false;
@@ -240,25 +246,25 @@ void Tutorial::SpriteUpdate(uint32_t tutorialNum) {
 	switch (tutorialNum)
 	{
 	case TUTO_1:
-	//InfoBarrier
-		infoNum_ = 60;	
-	break;
+		//InfoBarrier
+		infoNum_ = 60;
+		break;
 	case TUTO_2:
-	// InfoSlow&Dash
+		// InfoSlow&Dash
 		isTimeCount = true;
-	if (isInfoSLOW == true && infoCountTime_ >= 150) {
-		infoNum_ = 62;
-	}
-	if (isInfoDUSH == true && infoCountTime_ >= 150) {
-		infoNum_ = 63;
-	}if (isInfoDUSH == false && isInfoSLOW == false|| isInfoDUSH == true && isInfoSLOW == true) {
-		isInfoSLOW = true;
-		isInfoDUSH = false;
-	}
-	break;
+		if (isInfoSLOW == true && infoCountTime_ >= 150) {
+			infoNum_ = 62;
+		}
+		if (isInfoDUSH == true && infoCountTime_ >= 150) {
+			infoNum_ = 63;
+		}if (isInfoDUSH == false && isInfoSLOW == false || isInfoDUSH == true && isInfoSLOW == true) {
+			isInfoSLOW = true;
+			isInfoDUSH = false;
+		}
+		break;
 	case TUTO_3:
 		infoNum_ = 64;
-	break;
+		break;
 	default:
 		break;
 	}

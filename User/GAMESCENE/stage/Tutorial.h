@@ -41,9 +41,9 @@ private:
 
 	// カメラ座標
 	Vector3 moveCameraPos = { 0,0,0 };
-	Vector3 camposEye = { 0.0f,90.0f,-10.0001f };
+	Vector3 camposEye = { -50.0f,90.0f,-35.0001f };
 	float forcalLengs = 30.0f;
-	Vector3 camposTar = { 0,0,0 };
+	Vector3 camposTar = { -50,0,-25 };
 	int32_t camMoveTime_;
 
 
