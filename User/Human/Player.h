@@ -18,7 +18,7 @@ public:
 	/// シーンの更新を行う
 	void Initialize()override;
 	/// シーンの更新を行う
-	void Update(Input* input,bool isTitle = false)override;
+	void Update(Input* input, bool isTitle = false)override;
 	/// シーンの描画を行う
 	void Draw(DirectXCommon* dxCommon)override;
 	/// リセットを行う
@@ -56,6 +56,7 @@ private:
 	void PhantomUpdate();
 	void WeaponUpdate();
 	void PointDashUpdate();
+	bool SlowUpdate();
 private:
 	const uint32_t Tribe_ = HU_PLAYER;
 	uint32_t useWeapon_ = WP_ASSAULT;
@@ -92,11 +93,20 @@ private:
 	bool onFireBottle = false;
 
 	// 残像用
-	std::array<std::unique_ptr<Object3d>,4> phantom_;
+	std::array<std::unique_ptr<Object3d>, 4> phantom_;
 	float phantomAlpha_[4];
-	bool isPhantom_;
-	bool pad[3];
 	uint32_t countPH_;
+	bool isPhantom_;
+
+	// スロー用
+private:
+	bool oldSlow_;
+	bool isSlowTimeUp_;
+	bool isSlowMouse_;
+	const int32_t SLOWTIME_LIMIT = 180;
+	int32_t slowTimer_ = 0;
+
+
 	// スキル用
 private:
 	PointDash* pointDash_;

@@ -241,13 +241,7 @@ void Player::Move(Input* input) {
 	}
 
 	//////////////////////////////////
-	if (input->MouseButtonPush(RIGHT_MOUSE)) {
-		Human::_isSlow = true;
-	}
-	if (input->MouseButtonRelease(RIGHT_MOUSE)) {
-		Human::_isSlow = false;
-	}
-	if (input->MouseButtonRelease(RIGHT_MOUSE)) {
+	if (SlowUpdate()) {
 		nowSetPoint = false;
 		pointDash_->MakeMoveVec(Affin::GetWorldTrans(object_->transForm.matWorld));
 	}
@@ -530,5 +524,31 @@ void Player::PointDashUpdate()
 	if (!nowTitle && pointDash_->isActive == true) {
 		pointDash_->GoToPoint();
 		object_->transForm.position = pointDash_->resultVec;
+	}
+}
+
+bool Player::SlowUpdate()
+{
+
+	if (Input::get_instance().MouseButtonTrigger(RIGHT_MOUSE)) {
+		isSlowMouse_ = true;
+	}
+
+	if (isSlowMouse_ == true) {
+		slowTimer_++;
+	}
+	if (slowTimer_ >= SLOWTIME_LIMIT && isSlowMouse_ == true) {
+		isSlowMouse_ = false;
+		Human::_isSlow = isSlowMouse_;
+		slowTimer_ = NUMBER::NUM_ZERO;
+		return true;
+	}
+	else {
+		if (Input::get_instance().MouseButtonRelease(RIGHT_MOUSE)) {
+			isSlowMouse_ = false;
+			return true;
+		}
+		Human::_isSlow = isSlowMouse_;
+		return false;
 	}
 }
