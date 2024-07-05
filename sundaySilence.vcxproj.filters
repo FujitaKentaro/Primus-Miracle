@@ -309,6 +309,7 @@
     <ClCompile Include="Engine\3D\Particle\ObjectParticle.cpp">
       <Filter>engine\3d\particle</Filter>
     </ClCompile>
+    <ClCompile Include="User\Weapon\WeaponsFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\MATH\Affin.h">
@@ -599,6 +600,7 @@
     <ClInclude Include="Engine\3D\Particle\ObjectParticle.h">
       <Filter>engine\3d\particle</Filter>
     </ClInclude>
+    <ClInclude Include="User\Weapon\WeaponsFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SHADER\FBX.hlsli">
