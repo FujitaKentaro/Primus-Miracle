@@ -208,11 +208,13 @@ void SceneObjects::Initialize() {
 	}
 	// スロー
 	{
-		slowSP_ = std::make_unique<Sprite>();
-		slowSP_->Initialize(spriteCommon_.get(), 32);
-		slowSP_->SetPozition(Vector2{ 0.0f,0.0f });
-		slowSP_->SetSize({ WinApp::window_width ,WinApp::window_height });
-		slowSP_->SetColor(Vector4{ 0.1f,0.1f,0.1f,0.0f });
+		{
+			slowSP_ = std::make_unique<Sprite>();
+			slowSP_->Initialize(spriteCommon_.get(), 32);
+			slowSP_->SetPozition(Vector2{ 0.0f,0.0f });
+			slowSP_->SetSize({ WinApp::window_width ,WinApp::window_height });
+			slowSP_->SetColor(Vector4{ 0.1f,0.1f,0.1f,0.0f });
+		}
 	}
 	// UI
 	{
@@ -290,6 +292,15 @@ void SceneObjects::Initialize() {
 				UIDushSP_[i]->SetPozition(UIDushPos_);
 				UIDushSP_[i]->SetSize(UIDushSize_);
 			}
+		}
+		// UIスロー
+		{
+			UISlowLimitSPpos_ = Vector2{ 30 ,WinApp::window_height / 7.0f + 64.0f };
+			UISlowLimitSPsize_ = Vector2{ 64.0f,0.0f };
+			UISlowLimitSP_ = std::make_unique<Sprite>();
+			UISlowLimitSP_->Initialize(spriteCommon_.get(), spriteCommon_->GetTextureIndex("purple.png"));
+			UISlowLimitSP_->SetPozition(UISlowLimitSPpos_);
+			UISlowLimitSP_->SetSize(UISlowLimitSPsize_);
 		}
 	}
 
@@ -514,6 +525,7 @@ void SceneObjects::UIUpdate()
 	else {
 		UISlowSP_->SetTextureIndex(44);
 	}
+	UISlowLimitSPsize_.y = Easing::lerpFloat(0.0f, 320.0f, player->GetSlowTimeRate());
 	if (player->GetHP() > 0) {
 		UIHPSPsize_.y = 8.0f * player->GetHP();
 	}
@@ -522,6 +534,7 @@ void SceneObjects::UIUpdate()
 	}
 	UIBarrierGaugeSP_->SetSize(UIWeaponSPsize_);
 	UIHPSP_->SetSize(UIHPSPsize_);
+	UISlowLimitSP_->SetSize(UISlowLimitSPsize_);
 	UIBuckSP_->Update();
 	UIBarrierGaugeSP_->Update();
 	UISlowSP_->Update();
@@ -529,14 +542,15 @@ void SceneObjects::UIUpdate()
 	UIHPSP_->Update();
 	UIHPBaseSP_->Update();
 	UIPauseSP_->Update();
+	UISlowLimitSP_->Update();
 	for (size_t i = 0; i < NUMBER::NUM_FIVE; i++) {
 		UIDushSP_[i]->Update();
 	}
 	for (size_t i = 0; i < NUMBER::NUM_FIVE; i++) {
-		if (player->GetPoint()->GetRegistNum() - NUMBER::NUM_ONE == i) {
-			UIDushSP_[i]->SetColor({1,0,0,1});
+		if (player->GetPointDash()->GetRegistNum() - NUMBER::NUM_ONE == i) {
+			UIDushSP_[i]->SetColor({ 1,0,0,1 });
 		}
-		else if (player->GetPoint()->GetLineActive((uint32_t)i) == false) {
+		else if (player->GetPointDash()->GetLineActive((uint32_t)i) == false) {
 			UIDushSP_[i]->SetColor({ 1,1,1,1 });
 		}
 	}
@@ -552,6 +566,7 @@ void SceneObjects::UIDraw()
 	UIHPBaseSP_->Draw();
 	UIHPSP_->Draw();
 	UIPauseSP_->Draw();
+	UISlowLimitSP_->Draw();
 	for (size_t i = 0; i < NUMBER::NUM_FIVE; i++) {
 		UIDushSP_[i]->Draw();
 		// リソース待ち

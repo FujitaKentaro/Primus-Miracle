@@ -58,6 +58,12 @@ void Shotgun::Update(Input* input/*, bool isSlow*/) {
 	if (coolTime > 0) {
 		coolTime--;
 	}
+	if (_thisPlayer == true) {
+		mag = 0;
+		goShot = true;
+		nowRoading = false;
+		roadingTime = 0;
+	}
 	BulletManager::GetInstance()->SetSpeed(speed_);
 }
 

@@ -54,7 +54,11 @@ void BomFire::Update(Input* input) {
 
 	roadingTime--;
 
-
+	if (_thisPlayer == true) {
+		mag = 0;
+		goShot = true;
+		roadingTime = 0;
+	}
 
 	BulletManager::GetInstance()->SetSpeed(speed_);
 }

@@ -43,6 +43,8 @@ void Player::Initialize() {
 	weapon_[WP_SHOTGUN] = new Shotgun();
 	weapon_[WP_ASSAULT]->Initialize();
 	weapon_[WP_SHOTGUN]->Initialize();
+	weapon_[WP_ASSAULT]->SetThisPlayer(true);
+	weapon_[WP_SHOTGUN]->SetThisPlayer(true);
 	useWeapon_ = WP_ASSAULT;
 
 	pointDash_ = new PointDash();
@@ -530,24 +532,24 @@ void Player::PointDashUpdate()
 bool Player::SlowUpdate()
 {
 
-	if (Input::get_instance().MouseButtonTrigger(RIGHT_MOUSE)) {
+	if (Input::get_instance().MouseButtonTrigger(RIGHT_MOUSE) && isSlowMouse_ == false) {
 		isSlowMouse_ = true;
+		isSlowTimeEnd_ = false;
 	}
-
+	slowTimerRate_ = (float)slowTimer_ / (float)SLOWTIME_LIMIT;
 	if (isSlowMouse_ == true) {
 		slowTimer_++;
 	}
-	if (slowTimer_ >= SLOWTIME_LIMIT && isSlowMouse_ == true) {
+	if (slowTimer_ >= SLOWTIME_LIMIT && isSlowMouse_ == true && !isSlowTimeEnd_ == true||
+		Input::get_instance().MouseButtonRelease(RIGHT_MOUSE) && isSlowMouse_ == true) {
 		isSlowMouse_ = false;
 		Human::_isSlow = isSlowMouse_;
 		slowTimer_ = NUMBER::NUM_ZERO;
+		slowTimerRate_ = NUMBER::NUM_ZERO;
+		isSlowTimeEnd_ = true;
 		return true;
 	}
 	else {
-		if (Input::get_instance().MouseButtonRelease(RIGHT_MOUSE)) {
-			isSlowMouse_ = false;
-			return true;
-		}
 		Human::_isSlow = isSlowMouse_;
 		return false;
 	}

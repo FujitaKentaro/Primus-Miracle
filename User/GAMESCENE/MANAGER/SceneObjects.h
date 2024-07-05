@@ -127,6 +127,14 @@ private: // UI用
 	std::unique_ptr <Sprite> UISlowSP_;
 	Vector2 UISlowSPpos_;
 	Vector2 UISlowSPsize_;
+
+	// スロー用制限時間
+	std::unique_ptr <Sprite> UISlowLimitSP_;
+	Vector2 UISlowLimitSPpos_;
+	Vector2 UISlowLimitSPsize_;
+	const float MAXPOINT_SLOWLIMIT = 500.0f;
+
+
 	// ポイント
 	std::unique_ptr <Sprite> UIPointSP_;
 	Vector2 UIPointSPpos_;

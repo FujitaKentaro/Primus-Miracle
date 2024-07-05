@@ -44,6 +44,7 @@ public:
 private:
 	//正面をレティクル方向に向かせる
 	void FrontFace();
+	float CalculateShortestAngleDiff(const Vector3& targetAngle, const Vector3& restAngle);
 	// 当たり判定用のアップデート
 	void ColliderUpdate();
 	void OnCollision();
@@ -70,7 +71,7 @@ private:
 
 	Vector3 frontVec_;
 	int32_t hp = 3;
-
+	Vector3 lostRotate_, foundRotate_;
 
 	
 	//移動速度

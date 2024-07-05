@@ -17,9 +17,11 @@ class Weapon
 {
 protected:
 	float _slowSpeed = 0.25f;
+	bool _thisPlayer;
 	static bool _isSlow;
 public:
 	static void SetIsSlow(bool isSlow) { _isSlow = isSlow; };
+	void SetThisPlayer(bool thisPlayer) { _thisPlayer = thisPlayer; };
 	Weapon();
 	virtual ~Weapon();
 

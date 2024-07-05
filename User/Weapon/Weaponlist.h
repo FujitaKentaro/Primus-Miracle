@@ -17,3 +17,4 @@ enum WEAPONS
 	WP_SHOTGUN = 1,
 	WP_BOMFIRE = 2,
 };
+

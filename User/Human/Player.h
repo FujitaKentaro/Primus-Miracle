@@ -35,7 +35,8 @@ public:
 	bool GetOnFire() { return isOnBarrier; }
 	bool GetPointMAX() { return pointDash_->pointsMax; }
 	uint32_t GetPointNum() { return (uint32_t)pointDash_->points.size(); }
-	PointDash* GetPoint() { return pointDash_; }
+	float GetSlowTimeRate() { return slowTimerRate_; }
+	PointDash* GetPointDash() { return pointDash_; }
 	uint32_t GetHP() { return hp_; };
 	uint32_t GetHIT() { return hit_; };
 	const uint32_t GetMAXHP() { return MAX_HP; };
@@ -101,10 +102,11 @@ private:
 	// スロー用
 private:
 	bool oldSlow_;
-	bool isSlowTimeUp_;
+	bool isSlowTimeEnd_;
 	bool isSlowMouse_;
-	const int32_t SLOWTIME_LIMIT = 180;
+	const int32_t SLOWTIME_LIMIT = 300;
 	int32_t slowTimer_ = 0;
+	float slowTimerRate_;
 
 
 	// スキル用

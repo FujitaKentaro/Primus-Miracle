@@ -141,33 +141,80 @@ void Enemy::SetWeaponNum(uint32_t WeaponNum)
 void Enemy::FrontFace() {
 	Vector3 faceAngle, resultRot;
 	faceAngle.InIt();
-	faceAngle.y = (float)atan2(reticle.position.x - object_->transForm.position.x, reticle.position.z - object_->transForm.position.z);
-	if (isFound == true) {
-		stateRotate_ = object_->transForm.rotation;
-		frontVec_ = faceAngle;
-	}
-	else {
-		stateRotate_ = faceAngle;
-		frontVec_ = restRotate_;
-	}
-	if (isLost == true) {
-		stateRotate_ = object_->transForm.rotation;
-		easeTimer++;
+	faceAngle.y = atan2(reticle.position.x - object_->transForm.position.x,
+		reticle.position.z - object_->transForm.position.z);
 
-		easetime = (float)easeTimer / easeMaxTime;
+	// 敵を見つけた場合と見失った場合で処理を分ける
+	if (isFound) {
+		// 敵を見つけた瞬間の回転を記録
+		foundRotate_ = object_->transForm.rotation;
+
+
+		easeTimer++;
+		float easeTime = (float)easeTimer / easeMaxTime;
+
 		if (easeTimer <= easeMaxTime) {
-			frontVec_ = Easing::InQuintVec3({ 0,(faceAngle.y + 3.141592f / 2) * 1,0}, restRotate_, (float)easetime);
+			// イージングを使用して、敵方向と静止方向の間を最短距離で回転
+			frontVec_ = Easing::InQuintVec3(
+				foundRotate_, faceAngle, easeTime);
+
 			if (easeTimer == easeMaxTime) {
 				easeTimer = 1;
-				easetime = 0;
+				easeTime = 0;
 				isEaseEnd = true;
-				isLost = false;
 			}
 		}
+		else {
+			// イージングが完了したら、敵方向を向く
+			frontVec_ = faceAngle;
+		}
 	}
-	resultRot = frontVec_;
+	else {
+		// 敵を見失った場合
+		if (isLost) {
+			// 敵を見失った瞬間の回転を記録
+			lostRotate_ = object_->transForm.rotation;
+
+			// 最短距離で回転するための処理
+			easeTimer++;
+			float easeTime = (float)easeTimer / easeMaxTime;
+
+			if (easeTimer <= easeMaxTime) {
+				// イージングを使用して、敵方向と静止方向の間を最短距離で回転
+				frontVec_ = Easing::InQuintVec3(
+					lostRotate_, restRotate_, easeTime);
+
+				if (easeTimer == easeMaxTime) {
+					easeTimer = 1;
+					easeTime = 0;
+					isEaseEnd = true;
+					isLost = false;
+				}
+			}
+		}
+		else {
+			// 敵を見失っていない場合は、静止方向に向ける
+			frontVec_ = restRotate_;
+		}
+	}
+
+	// 回転処理
+	resultRot.y = frontVec_.y;
 	object_->transForm.rotation = resultRot;
 }
+
+float Enemy::CalculateShortestAngleDiff(const Vector3& targetAngle, const Vector3& restAngle) {
+	// 角度差を計算
+	float angleDiff = targetAngle.y - restAngle.y;
+
+	// 180度を超える角度差の場合は、反対方向に回転する方が最短距離
+	if (abs(angleDiff) > MathUtility::PI) {
+		angleDiff = angleDiff < 0 ? angleDiff + 2 * MathUtility::PI : angleDiff - 2 * MathUtility::PI;
+	}
+
+	return angleDiff;
+}
+
 
 void Enemy::ColliderUpdate() {
 	oldFound = isFound;
