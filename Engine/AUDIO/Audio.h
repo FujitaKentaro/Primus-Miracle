@@ -81,7 +81,7 @@ public:
 	/// <summary>
 	/// //音声再生
 	/// </summary>
-	IXAudio2SourceVoice* PlayWave(const std::string& filename,const float& volume = 10.0f);
+	IXAudio2SourceVoice* PlayWave(const std::string& filename,const float& volume = 0.5f);
 
 	/// <summary>
 	/// 音声停止
