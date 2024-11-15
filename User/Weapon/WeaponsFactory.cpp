@@ -15,4 +15,5 @@ Weapon* WeaponsFactory::CleateScene(const std::string& sceneName)
 	else {
 		return newWeapon;
 	}
+	return newWeapon;
 }

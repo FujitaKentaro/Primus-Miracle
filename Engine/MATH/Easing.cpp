@@ -1,6 +1,17 @@
 #include "Easing.h"
 #include <math.h>
 
+float Easing::EasingTime(int* time, int maxTime, bool* isEase)
+{
+	float result = 0;
+	result = (float)*time / (float)maxTime;
+	if (*time >= maxTime) {
+		*time = 0;
+		isEase = false;
+	}
+	return result;
+}
+
 float Easing::lerpFloat(const float start, const float end, const float t) {
 	return start * (1.0f - t) + end * t;
 }

@@ -22,7 +22,7 @@ void TitleScene::Initialize() {
 	_manager->_camera->SetFocalLengs(forcalLengs);
 	_manager->_camera->Update();
 	if (!_objects->bgmSourceVoice) {
-		_objects->bgmSourceVoice = Audio::get_instance()->PlayWave("BGM.wav");
+		//_objects->bgmSourceVoice = Audio::get_instance()->PlayWave("BGM.wav");
 	}
 	particle_ = std::make_unique<ParticleManager>();
 	particle_->Initialize();

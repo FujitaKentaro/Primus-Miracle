@@ -6,6 +6,9 @@
 
 namespace Easing
 {
+	// easetimekeisannyou
+	float EasingTime(int* time, int maxTime = 60, bool* isEase);
+
 	// 線形補間
 	float lerpFloat(const float start, const float end, const float time);
 	// 二乗
